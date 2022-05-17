@@ -1,46 +1,67 @@
-const express=require('express');
-const bodyParser=require('body-parser');
-const cors=require('cors');
-const multer=require('multer');
-const app=express();
-const port=3000;
+const express = require('express');
+const app = express();
+const multer = require('multer');
 
-//Middleware
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+const path = require('path');
 
+const bodyParser = require('body-parser');
+const cors = require('cors');
 app.use(cors());
+const port = 3000;
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(express.static(path.join(__dirname, '/images')))
+
+
+app.use(bodyParser.json())
+
+// connect DB
+const db = require('./config/db/index')
+db.connect()
+
+
+//import models 
+const Product = require('./models/product.model')
 
 var storage = multer.diskStorage({
-    destination:"images",
-    filename:(req, file, cb) => {
+    destination: "images", 
+    filename: (req, file, cb) => {
         cb(null, `${Date.now()}--${file.originalname}`);
+        // console.log(file.originalname)
     }
-});
-let maxSize = 10 * 1024 * 1024; //10MB
+})
+maxSize = 10*1024*1024
 var upload = multer({
-storage:storage,
-limits:{
-    fileSize:maxSize
-}
-}).single("file");
+    storage: storage,
+    limits: {
+        fileSize: maxSize
+    }
+}).single("file")
 
-app.get("/", (req, res)=>{
-    res.send("Et o et ...");
-});
 
-//API upload file
-app.post("/upload", (req,res)=>{
+app.post("/upload", (req, res)=>{
     upload(req, res, err =>{
         if(err){
-            res.json({message:err.message})
-        }else{
-            res.json({message: "Success!"});
-            console.log("File received: ",req.file.filename);
+            res.json({message: err.message})
         }
-    });
+        else{
+            //Insert Data into DB
+            let productInfo =   new  Product({
+                name: req.body.name,
+                thumbPath: req.file.filename
+            })
+
+             productInfo.save()
+// chuwa
+            res.json({message: "Success"});
+            // console.log(("file receive: ", req.file.filename))
+        }
+    })
 })
 
-app.listen(port,()=>{
-    console.log(`Server listening on port ${port}`);
-});
+app.get('/', (req, res) => {
+    res.send("EEE")
+})
+app.listen(port, (req, res) => {
+    console.log("Server is running")
+})
