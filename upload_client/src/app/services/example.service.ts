@@ -10,6 +10,7 @@ export class ExampleService {
 
   readonly api_url = 'http://localhost:3000'
 
+  
   uploadData(data: any){
     return this._http.post(`${this.api_url}/upload`,data).pipe(
       retry(2),
@@ -17,6 +18,13 @@ export class ExampleService {
     )
   }
 
+  getAllProducts(){
+    return this._http.get(`${this.api_url}/products`).pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+  }
+  
   handleError(err:HttpErrorResponse){
     return throwError(()=>new Error(err.message))
   }

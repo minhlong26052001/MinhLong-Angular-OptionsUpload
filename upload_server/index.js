@@ -62,6 +62,18 @@ app.post("/upload", (req, res)=>{
 app.get('/', (req, res) => {
     res.send("EEE")
 })
+
+//Api - Get all products
+app.get("/products",async(req,res)=>{
+    try{
+        let products = await Product.find();
+        res.json(products);
+    }catch{
+        res.json("Message: " + err.message);
+    }
+})
+
+
 app.listen(port, (req, res) => {
     console.log("Server is running")
 })
