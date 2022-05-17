@@ -2,6 +2,7 @@ import { ExampleService } from './../services/example.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -16,7 +17,7 @@ public formUpload = this._formBuilder.group({
 	//name:['',[Validators.required,Validators.minLength(3)]],
 	file:['']
 })
-  constructor(private _formBuilder: FormBuilder, private _service:ExampleService) { }
+  constructor(private _formBuilder: FormBuilder, private _service:ExampleService, private _router: Router) { }
 
   ngOnInit(): void {
 	//   this._service.getAllProducts().subscribe({
@@ -62,6 +63,9 @@ public formUpload = this._formBuilder.group({
 	})
 
 
+}
+onSelect(id:any){
+	this._router.navigate(['/details',id])
 }
   get nameInput(){
 	return this.formUpload.controls['name'];
