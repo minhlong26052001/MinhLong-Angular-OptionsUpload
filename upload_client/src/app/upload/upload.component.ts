@@ -10,6 +10,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class UploadComponent implements OnInit {
 	file:any = null;
+	products:any;
 public formUpload = this._formBuilder.group({
 	name:['',Validators.compose([Validators.required,Validators.minLength(3)])],
 	//name:['',[Validators.required,Validators.minLength(3)]],
@@ -18,6 +19,17 @@ public formUpload = this._formBuilder.group({
   constructor(private _formBuilder: FormBuilder, private _service:ExampleService) { }
 
   ngOnInit(): void {
+	//   this._service.getAllProducts().subscribe({
+	// 		  next: data=>this.products=data,
+	// 		  error: error=>console.log(error)
+	// 	  })
+	this.getData();
+  }
+  getData(){
+	    this._service.getAllProducts().subscribe({
+			  next: data=>this.products=data,
+			  error: error=>console.log(error)
+		  })
   }
   onChange(event:any){
 	if(event.target.files.length>0){
@@ -42,6 +54,7 @@ public formUpload = this._formBuilder.group({
 	this._service.uploadData(formData).subscribe({
 		next: res=>{
 			console.log(res);
+			this.getData();
 		},
 		error:err=>{
 			console.log(err.message);

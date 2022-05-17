@@ -1,0 +1,17 @@
+.container-products{
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.item{
+    margin: 15px 10px;
+}
+.img-scale{
+    width:120px;
+    height:auto;
+}
+
+.img-scale:hover{
+    cursor:pointer;
+    transform:scale(1.05);
+}

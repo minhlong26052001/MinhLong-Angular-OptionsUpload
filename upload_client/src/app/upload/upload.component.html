@@ -28,6 +28,14 @@
             </div>
             <div class="col-md-8">
                 <h5>Images</h5>
+                <div class="container-products">
+                    <div class="item" *ngFor="let p of products">
+                        <img class="img-scale" src="http://localhost:3000/{{p.thumbPath}}">
+                        <div class="text-center fw-bold">
+                            {{p.name}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
