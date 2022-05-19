@@ -63,6 +63,16 @@ app.get('/', (req, res) => {
     res.send("EEE")
 })
 
+//Api - Get product info
+app.get('/products/:id', async(req,res)=>{
+    try {
+        let productInfo = await Product.findById(req.params.id);
+        res.json(productInfo);
+    } catch (err){
+        res.json("Message: " + err.message)
+    }
+})
+
 //Api - Get all products
 app.get("/products",async(req,res)=>{
     try{

@@ -25,6 +25,13 @@ export class ExampleService {
     )
   }
   
+getProductInfo(id:any){
+  return this._http.get(`${this.api_url}/products/${id}`).pipe(
+    retry(2),
+    catchError(this.handleError)
+  )
+}
+
   handleError(err:HttpErrorResponse){
     return throwError(()=>new Error(err.message))
   }
