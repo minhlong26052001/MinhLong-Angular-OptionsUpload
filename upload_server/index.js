@@ -48,7 +48,8 @@ app.post("/upload", (req, res)=>{
             //Insert Data into DB
             let productInfo =   new  Product({
                 name: req.body.name,
-                thumbPath: req.file.filename
+                thumbPath: req.file.filename,
+                price: req.body.price
             })
 
              productInfo.save()
