@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 const multer = require('multer');
-
 const path = require('path');
+app.use(express.static(path.join(__dirname, '/images')))
 
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -10,7 +10,7 @@ app.use(cors());
 const port = 3000;
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(express.static(path.join(__dirname, '/images')))
+
 
 
 app.use(bodyParser.json())
